@@ -6,53 +6,84 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="seu_nome">
+    <changeSet id="2" author="gabrieu3">
         <sql>
             <![CDATA[
-            CREATE OR REPLACE VIEW vDadosStock AS
-            SELECT s.stock_code acao,
-                   s.dados_basicos_volume_financeiro volume_financeiro,
-                   s.resumo_empresa_precos_volume_diario_medio_3_meses volume_diario_medio_3meses,
-                   s.dados_basicos_ultimo_fechamento ultimo_fechamento,
-                   s.dados_basicos_setor setor,
-                   s.dados_basicos_subsetor subsetor,
-                   s.dados_basicos_segmento segmento,
-                   s.resumo_empresa_precos_relativos_preco_lucro preco_lucro,
-                   s.resumo_empresa_precos_relativos_preco_receita_liquida preco_recita_liquida,
-                   s.resumo_empresa_precos_relativos_market_cap_empresa valor_das_acoes,
-                   s.resumo_empresa_precos_relativos_enterprise_value valor_da_empresa,
-                   TO_NUMBER(REPLACE(REPLACE(REPLACE(s.resumo_empresa_precos_relativos_dividend_yield, '%', ''), '.', ''), ',', '.')) dividend_yield,
-                   s.resumo_empresa_dre12_meses_receita_liquida receita_liquida_12,
-                   s.resumo_empresa_dre12_meses_resultado_bruto resultado_bruto_12,
-                   s.resumo_empresa_dre12_meses_lucro_liquido lucro_liquido_12,
-                   s.resumo_empresa_dre12_meses_ebitda ebitda_12,
-                   s.resumo_empresa_dre12_meses_lucro_acao lucro_acao_12,
-                   s.resumo_empresa_dre3_meses_receita_liquida receita_liquida_3,
-                   s.resumo_empresa_dre3_meses_resultado_bruto resultado_bruto_3,
-                   s.resumo_empresa_dre3_meses_lucro_liquido lucro_liquido_3,
-                   s.resumo_empresa_dre3_meses_ebitda ebitda_3,
-                   s.resumo_empresa_dre3_meses_lucro_acao lucro_acao_3,
-                   s.resumo_empresa_precos_variacao_2024 variacao_2024,
-                   s.resumo_empresa_precos_variacao_1_ano variacao_1ano,
-                   s.resumo_empresa_precos_variacao_2_anos_total variacao_2ano,
-                   s.resumo_empresa_precos_variacao_3_anos_total variacao_3ano,
-                   s.resumo_empresa_precos_variacao_4_anos_total variacao_4ano,
-                   s.resumo_empresa_precos_variacao_5_anos_total variacao_5ano,
-                   s.resumo_empresa_bp_divida_curto_prazo divida_curto_prazo,
-                   s.resumo_empresa_bp_divida_longo_prazo divida_longo_prazo,
-                   s.resumo_empresa_bp_divida_bruta divida_bruta,
-                   s.resumo_empresa_bp_divida_liquida divida_liquida,
-                   s.resumo_empresa_bp_patrimonio_liquido patrimonio_liquido,
-                   s.resumo_empresa_bp_valor_patrimonial_acao valor_patrimonial_acao,
-                   s.resumo_empresa_bp_acoes_ordinarias acoes_ordinarias,
-                   s.resumo_empresa_bp_acoes_preferenciais acoes_preferenciais,
-                   s.resumo_empresa_bp_total_acoes total_acoes,
-                   s.resumo_empresa_bp_acoes_ordinarias_tesouraria acoes_ordinarias_tesouraria,
-                   s.resumo_empresa_bp_acoes_preferenciais_tesouraria acoes_preferenciais_tesouraria,
-                   s.resumo_empresa_bp_total_acoes_tesouraria total_acoes_tesouraria,
-                   s.resumo_empresa_fluxo_caixa_12_meses_fluxo_caixa_operacional fluxo_caixa_operacional12,
-                   s.resumo_empresa_fluxo_caixa_3_meses_fluxo_caixa_operacional fluxo_caixa_operacional3
-            FROM STOCK_INVEST_SITE s
+            create or replace view vdadosstock as
+                 select --SETOR
+                        s.dados_basicos_setor                                                            setor,
+                        s.dados_basicos_subsetor                                                         subsetor,
+                        s.dados_basicos_segmento                                                         segmento,
+                        s.stock_code                                                                     acao,
+                        s.dados_basicos_empresa                                                          empresa,
+                        --VOLUME - Interesse pelo ativo
+                        convert_to_number(s.dados_basicos_volume_financeiro)                             volume_financeiro,
+                        convert_to_number(s.resumo_empresa_precos_volume_diario_medio_3_meses)           volume_diario_medio_3meses,
+                        -- Se as ações valem mais que a empresa, faz sentido?
+                        convert_to_number(s.resumo_empresa_precos_relativos_market_cap_empresa)          valor_das_acoes,
+                        convert_to_number(s.resumo_empresa_precos_relativos_enterprise_value)            valor_da_empresa,
+                        -- Analises
+                        --Se o valor das ações supera o valor da empresa, isso é um bom sinal.
+                        --Os investidores acreditam no potencial futuro da empresa
+                        round((convert_to_number(s.resumo_empresa_precos_relativos_market_cap_empresa)/
+                        convert_to_number(s.resumo_empresa_precos_relativos_enterprise_value)) * 100,2)  perc_valor_acao_empresa,
+
+                        --Quantos por cento do volume é trafegado por dia? Muita ou pouca liquidez
+                        round((convert_to_number(s.resumo_empresa_precos_volume_diario_medio_3_meses)/
+                        convert_to_number(s.resumo_empresa_precos_relativos_market_cap_empresa)) * 100,2) perc_volume_total_acao,
+
+                        -- Indicadores
+                        s.resumo_empresa_precos_relativos_preco_lucro                                    preco_lucro,
+                        s.resumo_empresa_precos_relativos_preco_receita_liquida                          preco_receita_liquida,
+                        --Dividendo
+                        to_number(replace(replace(replace(
+                        s.resumo_empresa_precos_relativos_dividend_yield, '%', ''), '.', ''), ',', '.')) dividend_yield,
+                        --Vida financeira da empresa
+                        s.resumo_empresa_dre12_meses_receita_liquida                                     receita_liquida_12,
+                        s.resumo_empresa_dre12_meses_resultado_bruto                                     resultado_bruto_12,
+                        s.resumo_empresa_dre12_meses_lucro_liquido                                       lucro_liquido_12,
+                        s.resumo_empresa_dre12_meses_ebitda                                              ebitda_12,
+                        s.resumo_empresa_dre12_meses_lucro_acao                                          lucro_acao_12,
+                        s.resumo_empresa_dre3_meses_receita_liquida                                      receita_liquida_3,
+                        s.resumo_empresa_dre3_meses_resultado_bruto                                      resultado_bruto_3,
+                        s.resumo_empresa_dre3_meses_lucro_liquido                                        lucro_liquido_3,
+                        s.resumo_empresa_dre3_meses_ebitda                                               ebitda_3,
+                        s.resumo_empresa_dre3_meses_lucro_acao                                           lucro_acao_3,
+                        --
+                        s.resumo_empresa_bp_divida_curto_prazo                                           divida_curto_prazo,
+                        s.resumo_empresa_bp_divida_longo_prazo                                           divida_longo_prazo,
+                        s.resumo_empresa_bp_divida_bruta                                                 divida_bruta,
+                        s.resumo_empresa_bp_divida_liquida                                               divida_liquida,
+                        s.resumo_empresa_bp_patrimonio_liquido                                           patrimonio_liquido,
+                        s.resumo_empresa_bp_valor_patrimonial_acao                                       valor_patrimonial_acao,
+                        --
+                        s.resumo_empresa_fluxo_caixa_12_meses_fluxo_caixa_operacional                    fluxo_caixa_operacional12,
+                        s.resumo_empresa_fluxo_caixa_3_meses_fluxo_caixa_operacional                     fluxo_caixa_operacional3,
+                        --Variação do valor da ação
+                        s.resumo_empresa_precos_variacao_2024                                            variacao_2024,
+                        s.resumo_empresa_precos_variacao_1_ano                                           variacao_1ano,
+                        s.resumo_empresa_precos_variacao_2_anos_total                                    variacao_2ano,
+                        s.resumo_empresa_precos_variacao_3_anos_total                                    variacao_3ano,
+                        s.resumo_empresa_precos_variacao_4_anos_total                                    variacao_4ano,
+                        s.resumo_empresa_precos_variacao_5_anos_total                                    variacao_5ano,
+                        --Quantidade de ações
+                        convert_to_number(s.resumo_empresa_bp_acoes_ordinarias)                          acoes_ordinarias,
+                        convert_to_number(s.resumo_empresa_bp_acoes_preferenciais)                       acoes_preferenciais,
+                        convert_to_number(s.resumo_empresa_bp_total_acoes)                               total_acoes,
+                        convert_to_number(s.resumo_empresa_bp_acoes_ordinarias_tesouraria)               acoes_ordinarias_tesouraria,
+                        convert_to_number(s.resumo_empresa_bp_acoes_preferenciais_tesouraria)            acoes_preferenciais_tesouraria,
+                        convert_to_number(s.resumo_empresa_bp_total_acoes_tesouraria)                    total_acoes_tesouraria,
+                        -- Quanto deveria valer essa ação?
+                        '?'                                                                              qual_valor_de_compra,
+                        --VALOR ATUAL
+                        convert_to_number(s.dados_basicos_ultimo_fechamento)                             ultimo_fechamento
+                        --
+                 from stock_invest_site s
+                 --
+                order by s.dados_basicos_setor,
+                          s.dados_basicos_subsetor,
+                          s.dados_basicos_segmento,
+                          s.stock_code
             ]]>
         </sql>
     </changeSet>

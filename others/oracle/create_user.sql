@@ -1,0 +1,2 @@
+CREATE USER gabriel IDENTIFIED BY bales;
+GRANT DBA TO gabriel;

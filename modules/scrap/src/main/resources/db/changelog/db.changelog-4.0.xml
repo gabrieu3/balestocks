@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="4" author="gabrieu3">
+        <sql>
+            <![CDATA[
+            create or replace view vempresas_com_mais_acoes as
+                select *
+                from (
+                    select v.*
+                    from vdadosstock v
+                    where v.total_acoes is not null
+                      and v.valor_das_acoes/v.ultimo_fechamento between v.total_acoes - 500000000 and v.total_acoes + 500000000
+                    order by v.total_acoes desc
+                )
+                where rownum <= 50
+                order by total_acoes desc
+            ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

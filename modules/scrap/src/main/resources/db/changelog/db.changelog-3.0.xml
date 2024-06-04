@@ -1,0 +1,45 @@
+<changeSet id="1" author="seu_nome">
+    <createFunction
+            functionName="convert_to_number"
+            functionBody="CREATE OR REPLACE NONEDITIONABLE FUNCTION convert_to_number(currency_value IN VARCHAR2)
+                            RETURN NUMBER
+                            IS
+                                converted_number NUMBER;
+
+                              function replace2(pinValue IN VARCHAR2)
+                              return number is
+                                begin
+                                  return to_number(
+                                         replace(
+                                         replace(
+                                         replace(
+                                         replace(
+                                         replace(
+                                         replace(
+                                         replace(pinValue,'mil',''),
+                                                          'M',''),
+                                                          'B',''),
+                                                          'R$',''),
+                                                          '.',''),
+                                                          ',','.'),
+                                                          ' ',''));
+
+                                end;
+                            BEGIN
+                                IF currency_value LIKE 'R$ % mil' THEN
+                                    converted_number := replace2(currency_value) * 1000;
+                                ELSIF currency_value LIKE 'R$ % M' THEN
+                                    converted_number := replace2(currency_value) * 1000000;
+                                ELSIF currency_value LIKE 'R$ % B' THEN
+                                    converted_number := replace2(currency_value) * 1000000000;
+                                ELSE
+                                    converted_number := replace2(currency_value);
+                                END IF;
+
+                                RETURN converted_number;
+                            EXCEPTION
+                                WHEN OTHERS THEN
+                                    RETURN NULL;
+                            END;">
+    </createFunction>
+</changeSet>
