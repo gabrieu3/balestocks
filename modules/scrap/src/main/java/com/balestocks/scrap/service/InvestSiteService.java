@@ -1,11 +1,10 @@
 package com.balestocks.scrap.service;
 
 import com.balestocks.scrap.domain.DadosInvestSite;
-import com.balestocks.scrap.domain.DadosMercadoSite;
-import com.balestocks.scrap.domain.dto.StockDadosMercadoDto;
 import com.balestocks.scrap.domain.dto.StockInvestSiteDto;
 import com.balestocks.scrap.domain.enums.StockEnum;
-import com.balestocks.scrap.domain.mapper.DadosMercadoMapper;
+import com.balestocks.scrap.domain.mapper.InvestSiteMapper;
+import com.balestocks.scrap.repository.StockInvestSiteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -27,23 +26,27 @@ public class InvestSiteService {
     @Autowired
     private WebDriverService driver;
 
+    @Autowired
+    private StockInvestSiteRepository stockInvestSiteRepository;
+
     public List<StockInvestSiteDto> scrap() throws InterruptedException {
-        List<StockInvestSiteDto> listStockInvest = new ArrayList<StockInvestSiteDto>();
-
-
-        for(StockEnum stock: StockEnum.values()){
+        List<StockInvestSiteDto> listStockInvest = new ArrayList<>();
+        for (StockEnum stock : StockEnum.values()) {
             listStockInvest.add(scrapStock(stock));
             Thread.sleep(2000);
         }
-
         return listStockInvest;
     }
 
-    public StockInvestSiteDto scrapStock(StockEnum stockCode){
+    public StockInvestSiteDto scrapStock(StockEnum stockCode) {
         DadosInvestSite dadosInvestSite = new DadosInvestSite();
         By locator = By.xpath("//div[contains(@id, 'header_empresa')]");
         return carregaDados(stockCode,
                 this.getDocumentPage(dadosInvestSite.urlStock(stockCode), locator, null));
+    }
+
+    public void saveScrapList(List<StockInvestSiteDto> list) {
+        list.forEach(stock -> stockInvestSiteRepository.save(InvestSiteMapper.toEntity(stock)));
     }
 
     protected Document getDocumentPage(String url, By locator, String text) {
@@ -67,7 +70,7 @@ public class InvestSiteService {
         return stockInvestSiteDto;
     }
 
-    private void extrairDadosBasicos(StockInvestSiteDto stockInvestSiteDto, Document documentPage){
+    private void extrairDadosBasicos(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa");
         try {
@@ -180,13 +183,14 @@ public class InvestSiteService {
                         .participacaoIndices(participacaoIndices)
                         .build());
             } else {
-                System.out.println("Tabela não encontrada");
+                System.out.println("Tabela não encontrada tabela_resumo_empresa");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void extrairDadosResumoEmpresaPrecosRelativos(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_precos_relativos"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_precos_relativos");
@@ -327,6 +331,7 @@ public class InvestSiteService {
                 .dividendYield(dividendYield)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaDRE12Meses(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_dre_12meses"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_dre_12meses");
@@ -397,6 +402,7 @@ public class InvestSiteService {
                 .lucroAcao(lucroAcao)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaDre3Meses(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_dre_3meses"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_dre_3meses");
@@ -467,6 +473,7 @@ public class InvestSiteService {
                 .lucroAcao(lucroAcao)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaPrecos(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_precos");
 
@@ -562,6 +569,7 @@ public class InvestSiteService {
                 .volumeDiarioMedio3Meses(volumeDiarioMedio3Meses)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaMargensRetornos(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_margens_retornos"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_margens_retornos");
@@ -667,6 +675,7 @@ public class InvestSiteService {
                 .dividaLiquidaEbitda(dividaLiquidaEbitda)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaBp(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_bp"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_bp");
@@ -787,6 +796,7 @@ public class InvestSiteService {
                 .totalAcoesExTesouraria(totalAcoesExTesouraria)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaFluxoCaixa12Meses(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_fc_12meses"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_fc_12meses");
@@ -842,6 +852,7 @@ public class InvestSiteService {
                 .aumentoReducaoCaixa(aumentoReducaoCaixa)
                 .build());
     }
+
     private void extrairDadosResumoEmpresaFluxoCaixa3Meses(StockInvestSiteDto stockInvestSiteDto, Document documentPage) {
         // Encontrar a tabela com id "tabela_resumo_empresa_fc_3meses"
         Element table = documentPage.selectFirst("#tabela_resumo_empresa_fc_3meses");

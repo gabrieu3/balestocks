@@ -1,3 +1,8 @@
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+
 # Compiled class file
 *.class
 
@@ -22,3 +27,28 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Maven / Gradle
+target/
+build/
+
+# Eclipse specific files
+.settings/
+.project
+.classpath
+
+# NetBeans specific files
+nbproject/private/
+build/
+nbbuild/
+dist/
+.nb-gradle/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEA specific folders
+.idea/
+*.iml
+*.ipr

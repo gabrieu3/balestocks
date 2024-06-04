@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="gabrieu3">
+        <createTable tableName="stock_invest_site">
+            <column name="id" type="INTEGER" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+
+            <!-- Colunas de StockInvestSiteDto -->
+            <column name="stock_code" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de DadosBasicos -->
+            <column name="dados_basicos_empresa" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_razao_social" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_situacao_registro" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_situacao_emissor" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_segmento_listagem" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_atividade" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_acao" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_data_cotacao" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_tipo_acao" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_ultimo_fechamento" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_fator_cotacao" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_volume_financeiro" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_ultimo_demonstrativo" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_setor" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_subsetor" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_segmento" type="VARCHAR2(500)"/>
+            <column name="dados_basicos_participacao_indices" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaPrecosRelativos -->
+            <column name="resumo_empresa_precos_relativos_preco_lucro" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_vpa" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_receita_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_fco" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_fcf" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_ativo_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_ebit" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_capital_giro" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_ncav" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_ebit" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_ebitda" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_receita_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_fco" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_fcf" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_ev_ativo_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_market_cap_empresa" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_enterprise_value" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_data_demonstracao_financeira_atual" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_preco_atual_acao" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_data_preco_acao" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_relativos_dividend_yield" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaDRE12Meses -->
+            <column name="resumo_empresa_dre12_meses_receita_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_resultado_bruto" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_ebit" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_depreciacao_amortizacao" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_ebitda" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_lucro_liquido" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre12_meses_lucro_acao" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaDre3Meses -->
+            <column name="resumo_empresa_dre3_meses_receita_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_resultado_bruto" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_ebit" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_depreciacao_amortizacao" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_ebitda" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_lucro_liquido" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_dre3_meses_lucro_acao" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaPrecos -->
+            <column name="resumo_empresa_precos_menor_preco_52_semanas" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_maior_preco_52_semanas" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_2024" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_1_ano" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_2_anos_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_2_anos_anual" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_3_anos_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_3_anos_anual" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_4_anos_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_4_anos_anual" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_5_anos_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_variacao_5_anos_anual" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_precos_volume_diario_medio_3_meses" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaMargensRetornos -->
+            <column name="resumo_empresa_margens_retornos_retorno_capital_tangivel_inicial" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_retorno_capital_investido_inicial" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_retorno_capital_tangivel_inicial_pre_impostos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_retorno_capital_investido_inicial_pre_impostos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_retorno_patrimonio_liquido_inicial" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_retorno_ativo_inicial" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_margem_bruta" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_margem_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_margem_ebit" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_margem_ebitda" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_giro_ativo_inicial" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_alavancagem_financeira" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_passivo_patrimonio_liquido" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_margens_retornos_divida_liquida_ebitda" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaBp -->
+            <column name="resumo_empresa_bp_caixa_equivalentes" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_ativo_total" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_divida_curto_prazo" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_divida_longo_prazo" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_divida_bruta" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_divida_liquida" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_patrimonio_liquido" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_valor_patrimonial_acao" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_ordinarias" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_preferenciais" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_total_acoes" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_ordinarias_tesouraria" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_preferenciais_tesouraria" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_total_acoes_tesouraria" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_ordinarias_ex_tesouraria" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_acoes_preferenciais_ex_tesouraria" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_bp_total_acoes_ex_tesouraria" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaFluxoCaixa12Meses -->
+            <column name="resumo_empresa_fluxo_caixa_12_meses_fluxo_caixa_operacional" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_12_meses_fluxo_caixa_investimentos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_12_meses_fluxo_caixa_financiamentos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_12_meses_aumento_reducao_caixa" type="VARCHAR2(500)"/>
+
+            <!-- Colunas de ResumoEmpresaFluxoCaixa3Meses -->
+            <column name="resumo_empresa_fluxo_caixa_3_meses_fluxo_caixa_operacional" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_3_meses_fluxo_caixa_investimentos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_3_meses_fluxo_caixa_financiamentos" type="VARCHAR2(500)"/>
+            <column name="resumo_empresa_fluxo_caixa_3_meses_aumento_reducao_caixa" type="VARCHAR2(500)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

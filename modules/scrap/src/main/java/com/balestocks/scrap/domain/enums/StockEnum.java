@@ -309,7 +309,6 @@ public enum StockEnum {
     ALPA3("Alpargatas"),
     MNPR3("Minupar"),
     NORD3("Nordon"),
-    GOLL11("GOL"),
     CGAS5("Comgás"),
     APER3("Alper"),
     MNDL3("Mundial"),
@@ -335,7 +334,6 @@ public enum StockEnum {
     CTNM3("Coteminas"),
     WHRL3("Whirlpool"),
     HAGA3("Haga"),
-    AZEV11("Azevedo & Travassos"),
     BAUH4("Excelsior"),
     CLSC3("Celesc"),
     BGIP4("Banese"),
@@ -390,7 +388,6 @@ public enum StockEnum {
     LIPR3("Eletropar"),
     WLMM3("WLM"),
     BRSR5("Banrisul"),
-    PINE11("Banco Pine"),
     CBEE3("Ampla Energia"),
     CTKA3("Karsten"),
     EQPA6("Equatorial Energia Pará"),
@@ -400,6 +397,7 @@ public enum StockEnum {
     PATI3("Panatlântica"),
     USIM6("Usiminas"),
     JOPA4("Josapar"),
+    GOLL3("Gol 3"),
     DTCY3("Dtcom");
 
     private final String companyName;

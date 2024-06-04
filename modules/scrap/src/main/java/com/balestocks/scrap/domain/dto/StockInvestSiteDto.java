@@ -6,9 +6,12 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class StockInvestSiteDto {
 
     private StockEnum stockCode;

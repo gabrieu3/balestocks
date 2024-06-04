@@ -17,11 +17,18 @@ public class CsvGeneratorServiceTest {
     InvestSiteService investSiteService;
 
     @Test
-    public void geraCsvComDadosDoSiteInvestSite() throws IOException, IllegalAccessException {
+    public void geraCsvComDadosCIEL3DoSiteInvestSite() throws IOException, IllegalAccessException {
         List listTest = new ArrayList<>();
         listTest.add(investSiteService.scrapStock(StockEnum.CIEL3));
-        CsvGeneratorService.generateCsv(listTest,"InvesteSiteData.csv");
+        investSiteService.saveScrapList(listTest);
+        CsvGeneratorService.generateCsv(listTest);
     }
 
+    @Test
+    public void geraCsvComDadosDoSiteInvestSite() throws IOException, IllegalAccessException, InterruptedException {
+        List listStock = investSiteService.scrap();
+        investSiteService.saveScrapList(listStock);
+        CsvGeneratorService.generateCsv(listStock);
+    }
 
 }
