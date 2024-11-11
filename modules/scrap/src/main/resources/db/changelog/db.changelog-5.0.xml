@@ -6,21 +6,20 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="4" author="gabrieu3">
+    <changeSet id="5" author="gabrieu3">
         <sql>
             <![CDATA[
-            create or replace view vempresas_com_mais_acoes as
+            create or replace view vempresas_com_maior_yield as
                 select *
                 from (
                     select v.*
                     from vdadosstock v
-                    where v.total_acoes is not null
-                      and v.valor_das_acoes/v.ultimo_fechamento between v.total_acoes - 500000000 and v.total_acoes + 500000000
-                      and v.volume_financeiro > 100000
-                    order by v.total_acoes desc
+                    where v.dividend_yield is not null
+                    and v.volume_financeiro > 100000
+                    order by v.dividend_yield desc
                 )
                 where rownum <= 50
-                order by total_acoes desc
+                order by dividend_yield desc
             ]]>
         </sql>
     </changeSet>
