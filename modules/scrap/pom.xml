@@ -43,6 +43,13 @@
 			<version>4.10.0</version>
 		</dependency>
 
+		<!-- Para atualizar o Chromedriver -->
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>5.9.2</version>
+		</dependency>
+
 		<!--
 		  - Lib para fazer webscrapping
 		 -->
@@ -100,6 +107,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Banco de dados H2 para teste -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.3.232</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- JSON assert library -->
 		<dependency>
 			<groupId>org.skyscreamer</groupId>
@@ -107,6 +122,9 @@
 			<version>1.5.0</version>
 			<scope>test</scope>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<build>

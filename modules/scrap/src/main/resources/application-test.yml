@@ -1,3 +1,23 @@
 spring:
   liquibase:
     enabled: false
+
+  # Configurações para não conectar ao banco de dados real
+  datasource:
+    url: jdbc:h2:mem:testdb   # Banco em memória H2
+    username: sa
+    password: password
+    driver-class-name: org.h2.Driver
+
+  # Desabilitar o Spring Data JPA nos testes
+  jpa:
+    hibernate:
+      ddl-auto: update         # Ajuste para auto-criar as tabelas (ou 'none' se preferir não criar)
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  # Deixe os repositórios JPA habilitados para testes
+  data:
+    jpa:
+      repositories:
+        enabled: true           # Habilita os repositórios JPA
