@@ -40,7 +40,7 @@ public class InvestSiteService {
 
     public StockInvestSiteDto scrapStock(StockEnum stockCode) {
         DadosInvestSite dadosInvestSite = new DadosInvestSite();
-        By locator = By.xpath("//div[contains(@id, 'header_empresa')]");
+        By locator = By.xpath("//main[contains(@id, 'main-content')]");
         return carregaDados(stockCode,
                 this.getDocumentPage(dadosInvestSite.urlStock(stockCode), locator, null));
     }
