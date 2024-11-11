@@ -5,8 +5,10 @@ import com.balestocks.scrap.domain.enums.StockEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("test")  // Ativa o perfil "test" onde o Liquibase está desabilitado
 public class InvestSiteServiceTest {
 
     @Autowired
