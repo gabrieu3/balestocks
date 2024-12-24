@@ -19,9 +19,9 @@ public class CsvGeneratorServiceTest {
     InvestSiteService investSiteService;
 
     @Test
-    public void geraCsvComDadosCIEL3DoSiteInvestSite() throws IOException, IllegalAccessException {
+    public void geraCsvComDadosRAIZ4DoSiteInvestSite() throws IOException, IllegalAccessException {
         List listTest = new ArrayList<>();
-        listTest.add(investSiteService.scrapStock(StockEnum.CIEL3));
+        listTest.add(investSiteService.scrapStock(StockEnum.RAIZ4));
         investSiteService.saveScrapList(listTest);
         CsvGeneratorService.generateCsv(listTest);
     }
