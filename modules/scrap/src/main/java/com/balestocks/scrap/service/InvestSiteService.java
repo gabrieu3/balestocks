@@ -33,7 +33,7 @@ public class InvestSiteService {
         List<StockInvestSiteDto> listStockInvest = new ArrayList<>();
         for (StockEnum stock : StockEnum.values()) {
             listStockInvest.add(scrapStock(stock));
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         }
         return listStockInvest;
     }
